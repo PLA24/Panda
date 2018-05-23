@@ -16,12 +16,13 @@ const VehicleSchema = new mongoose.Schema({
     },
     vehicletype: {
         type: String,
-        required: true
+        required: true,
+        default: "Persoonsauto"
     },
-    bodytype: {
-        type: String,
-        required: true
-    },
+    // bodytype: {
+    //     type: String,
+    //     required: true
+    // },
     maincolor: {
         type: String,
         required: true
@@ -37,7 +38,8 @@ const VehicleSchema = new mongoose.Schema({
     },
     siteSpotted: {
         type: String,
-        required: true
+        required: true,
+        default: 'Pulse1'
     }
 });
 

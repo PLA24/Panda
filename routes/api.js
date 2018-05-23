@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 const Vehicle = require('../models/vehicle');
-const https = require('https');
+const request = require('request');
 
 /* Standard get. */
 // router.get('/', function(req, res, next) {
@@ -17,24 +17,23 @@ router.post('/newVehicle', [
     // res.json();
     const plate = req.body.results.plate;
 
-    https.get('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=KENTEKEN'.replace('KENTEKEN', plate), (resp) => {
-        let data = '';
+    let vehicle = new Vehicle();
 
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
+    request('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=KENTEKEN'.replace('KENTEKEN', plate), { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        vehicle.numberplate = body.kenteken;
+        vehicle.brand = body.merk;
+        vehicle.tradename = body.handelsbenaming;
+        vehicle.mainColor = body.eerste_kleur;
+        vehicle.economyLabel = body.zuinigheidslabel;
 
-        resp.on('end', () => {
-            console.log(JSON.parse(data).explanation);
-        });
-
-    }).on("error", (err) => {
-        console.log("Error: " + err.message);
+        console.log(body.url);
+        console.log(body.explanation);
     });
 
-    // const vehicle = new Vehicle({
-    //
-    // })
+    console.log(vehicle)
+
+
 });
 
 router.get('/', function (req, res) {
