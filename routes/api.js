@@ -27,14 +27,14 @@ router.post('/newVehicle', [
 
     request(apiURL, { json: true }, (err, res, body) => {
         if (err) { return console.log(err); }
-        vehicle.numberplate = body.kenteken;
-        vehicle.brand = body.merk;
-        vehicle.tradename = body.handelsbenaming;
-        vehicle.mainColor = body.eerste_kleur;
-        vehicle.economyLabel = body.zuinigheidslabel;
+        console.log(body);
+        // vehicle.numberplate = body.kenteken;
+        // vehicle.brand = body.merk;
+        // vehicle.tradename = body.handelsbenaming;
+        // vehicle.mainColor = body.eerste_kleur;
+        // vehicle.economyLabel = body.zuinigheidslabel;
 
-        // console.log(body.url);
-        // console.log(body.explanation);
+        console.log(body.url);
     });
     console.log("OBJECT");
     console.log(vehicle);
