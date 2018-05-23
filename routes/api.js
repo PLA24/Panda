@@ -16,9 +16,11 @@ router.post('/newVehicle', [
     console.log(req.body);
     // res.json();
     const plate = req.body.results.plate;
+    console.log(plate);
 
     let vehicle = new Vehicle();
     const apiURL = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken='+plate;
+
 
     request(apiURL, { json: true }, (err, res, body) => {
         if (err) { return console.log(err); }
