@@ -36,7 +36,9 @@ router.post('/newVehicle', [
 
         console.log("OBJECT");
         console.log(vehicle);
-        vehicle.createVehicle()
+        Vehicle.createVehicle(vehicle, (err) => {
+            if (err) {throw err}
+        })
     });
 
 
