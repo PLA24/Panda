@@ -31,10 +31,8 @@ router.post('/newVehicle', [
         vehicle.numberplate = body[0].kenteken;
         vehicle.brand = body[0].merk;
         vehicle.tradename = body[0].handelsbenaming;
-        vehicle.mainColor = body[0].eerste_kleur;
-        vehicle.economyLabel = body[0].zuinigheidslabel;
-
-        console.log(body[0].eerste_kleur +  body[0].zuinigheidslabel);
+        vehicle.maincolor = body[0].eerste_kleur;
+        vehicle.economylabel = body[0].zuinigheidslabel;
 
         console.log("OBJECT");
         console.log(vehicle);
