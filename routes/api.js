@@ -12,7 +12,7 @@ const request = require('request');
 router.post('/newVehicle', [
     check('results.plate').isLength({min: 6, max: 6})
 //    .custom etc
-], function (req, res) {
+], function (req, res, next) {
     // console.log(req.body);
     // res.json();
     console.log("RESULTS");
@@ -27,7 +27,7 @@ router.post('/newVehicle', [
 
     request(apiURL, { json: true }, (err, res, body) => {
         if (err) { return console.log(err); }
-        if (body[0].kenteken) {
+        if (body[0] != undefined) {
             console.log(body[0]);
             vehicle.numberplate = body[0].kenteken;
             vehicle.brand = body[0].merk;
@@ -44,7 +44,7 @@ router.post('/newVehicle', [
             console.log ("No data on plate!")
         }
     });
-
+    next();
 
 });
 
