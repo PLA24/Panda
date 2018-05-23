@@ -13,10 +13,10 @@ router.post('/newVehicle', [
     check('results.plate').isLength({min: 6, max: 6})
 //    .custom etc
 ], function (req, res) {
-    console.log(req.body);
+    // console.log(req.body);
     // res.json();
     const plate = req.body.results.plate;
-    console.log(plate);
+    console.log(req.body.results);
 
     let vehicle = new Vehicle();
     const apiURL = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken='+plate;
