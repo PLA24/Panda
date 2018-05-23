@@ -33,9 +33,11 @@ router.post('/newVehicle', [
         vehicle.tradename = body[0].handelsbenaming;
         vehicle.mainColor = body[0].eerste_kleur;
         vehicle.economyLabel = body[0].zuinigheidslabel;
+
+        console.log("OBJECT");
+        console.log(vehicle);
+        vehicle.createVehicle()
     });
-    console.log("OBJECT");
-    console.log(vehicle);
 
 
 });
