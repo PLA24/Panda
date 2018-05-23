@@ -25,11 +25,13 @@ const VehicleSchema = new mongoose.Schema({
     // },
     maincolor: {
         type: String,
-        required: true
+        required: true,
+        default: "PIMPELPAARS"
     },
     economylabel: {
         type: String,
-        required: true
+        required: true,
+        default: "GEEN"
     },
     timeSpotted: {
         type: Date,

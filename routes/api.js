@@ -34,6 +34,8 @@ router.post('/newVehicle', [
         vehicle.mainColor = body[0].eerste_kleur;
         vehicle.economyLabel = body[0].zuinigheidslabel;
 
+        console.log(body[0].eerste_kleur +  body[0].zuinigheidslabel);
+
         console.log("OBJECT");
         console.log(vehicle);
         Vehicle.createVehicle(vehicle, (err) => {
