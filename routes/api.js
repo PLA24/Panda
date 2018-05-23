@@ -30,8 +30,8 @@ router.post('/newVehicle', [
         vehicle.mainColor = body.eerste_kleur;
         vehicle.economyLabel = body.zuinigheidslabel;
 
-        console.log(body.url);
-        console.log(body.explanation);
+        // console.log(body.url);
+        // console.log(body.explanation);
     });
 
     console.log(vehicle)
