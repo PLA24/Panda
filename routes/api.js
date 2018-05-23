@@ -18,8 +18,9 @@ router.post('/newVehicle', [
     const plate = req.body.results.plate;
 
     let vehicle = new Vehicle();
+    const apiURL = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken='+plate;
 
-    request('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=KENTEKEN'.replace('KENTEKEN', plate), { json: true }, (err, res, body) => {
+    request(apiURL, { json: true }, (err, res, body) => {
         if (err) { return console.log(err); }
         vehicle.numberplate = body.kenteken;
         vehicle.brand = body.merk;
