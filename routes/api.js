@@ -16,7 +16,11 @@ router.post('/newVehicle', [
     // console.log(req.body);
     // res.json();
     const plate = req.body.results.plate;
+    console.log("RESULTS");
     console.log(req.body.results);
+    let results = req.body.results;
+    console.log("PLATE");
+    console.log(results.plate);
 
     let vehicle = new Vehicle();
     const apiURL = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken='+plate;
@@ -33,8 +37,8 @@ router.post('/newVehicle', [
         // console.log(body.url);
         // console.log(body.explanation);
     });
-
-    console.log(vehicle)
+    console.log("OBJECT");
+    console.log(vehicle);
 
 
 });
