@@ -7,10 +7,33 @@ const request = require("request");
 router.post(
   "/newVehicle",
   [
-    check("results.plate").isLength({ min: 6, max: 6 })
-    //    .custom etc
+    check("results.plate")
+      // Lengte moet 6 zijn
+      .isLength({ min: 6, max: 6 })
+      .withMessage("Not a valid plate!")
+
+      // Moet niet de afgelopen 5 minuten gespot zijn
+      .custom(value => {
+        const now = new Date();
+        return Vehicle.findOne({ numberplate: results.plate }, function(
+          err,
+          vehicle
+        ) {
+          var difTime = vehicle.timeSpotted - now;
+          var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+          if (diffMins < 5) {
+            throw new Error("Vehicle already spotted within time-limit");
+          }
+        });
+      })
   ],
   function(req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      return;
+    }
+
     // Plate als tekst uit de results halen van ALPR
     let plate = req.body.results[0].plate;
 
