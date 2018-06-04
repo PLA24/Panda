@@ -1,55 +1,58 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const { check, validationResult } = require('express-validator/check');
-const Vehicle = require('../models/vehicle');
-const request = require('request');
+const { check, validationResult } = require("express-validator/check");
+const Vehicle = require("../models/vehicle");
+const request = require("request");
 
-/* Standard get. */
-// router.get('/', function(req, res, next) {
-//     res.render('index', { title: 'Express' });
-// });
-
-router.post('/newVehicle', [
-    check('results.plate').isLength({min: 6, max: 6})
-//    .custom etc
-], function (req, res, next) {
-    // console.log(req.body);
-    // res.json();
-    console.log("RESULTS");
-    console.log(req.body.results);
-    console.log("PLATE");
+router.post(
+  "/newVehicle",
+  [
+    check("results.plate").isLength({ min: 6, max: 6 })
+    //    .custom etc
+  ],
+  function(req, res, next) {
+    // Plate als tekst uit de results halen van ALPR
     let plate = req.body.results[0].plate;
-    console.log(plate);
 
+    // Nieuw vehicle object maken en api url opstellen
     let vehicle = new Vehicle();
-    const apiURL = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken='+plate;
+    const apiURL =
+      "https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=" + plate;
 
-
+    // Request naar rdw API voor voertuig-data
     request(apiURL, { json: true }, (err, res, body) => {
-        if (err) { return console.log(err); }
-        if (body[0] != undefined) {
-            console.log(body[0]);
-            vehicle.numberplate = body[0].kenteken;
-            vehicle.brand = body[0].merk;
-            vehicle.tradename = body[0].handelsbenaming;
-            vehicle.maincolor = body[0].eerste_kleur;
-            vehicle.economylabel = body[0].zuinigheidslabel;
+      // Als er een error gegeven wordt door request(), print de error voor debugging
+      if (err) {
+        return console.log(err);
+      }
 
-            console.log("OBJECT");
-            console.log(vehicle);
-            Vehicle.createVehicle(vehicle, (err) => {
-                if (err) {throw err}
-            })
-        } else {
-            console.log ("No data on plate!")
-        }
+      // Als de body van de gegven data uit de API niet leeg is
+      if (body[0] != undefined) {
+        // Overschrijft de data van het vehicle object, met data uit de api
+        vehicle.numberplate = body[0].kenteken;
+        vehicle.brand = body[0].merk;
+        vehicle.tradename = body[0].handelsbenaming;
+        vehicle.maincolor = body[0].eerste_kleur;
+        vehicle.economylabel = body[0].zuinigheidslabel;
+
+        // Roept de functie createVehicle aan om het vehicle object op te slaan in de database
+        Vehicle.createVehicle(vehicle, err => {
+          if (err) {
+            throw err;
+          }
+        });
+
+        // Als de body van de API-data wel leeg is, geef een erro
+      } else {
+        console.log("No data on plate!");
+      }
     });
     next();
+  }
+);
 
-});
-
-router.get('/', function (req, res) {
-    res.json({message: 'hooray! welcome to our api!'});
+router.get("/", function(req, res) {
+  res.json({ message: "hooray! welcome to our api!" });
 });
 
 module.exports = router;
