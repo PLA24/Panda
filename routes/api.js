@@ -7,7 +7,7 @@ const request = require("request");
 router.post(
   "/newVehicle",
   [
-    check("results.plate")
+    check("results[0].plate")
       // Lengte moet 6 zijn
       .isLength({ min: 6, max: 6 })
       .withMessage("Not a valid plate!")
@@ -30,7 +30,7 @@ router.post(
   function(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.mapped() });
+        return res.status(422).json({ errors: errors.mapped()});
       }
 
     // Plate als tekst uit de results halen van ALPR
