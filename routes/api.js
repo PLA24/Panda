@@ -15,7 +15,7 @@ router.post(
       // Moet niet de afgelopen 5 minuten gespot zijn
       .custom(value => {
         const now = new Date();
-        return Vehicle.findOne({ numberplate: value }).then(err, vehicle => {
+        return Vehicle.findOne({ numberplate: value }).then(vehicle => {
           if (vehicle) {
             var difTime = vehicle.timeSpotted - now;
             var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
