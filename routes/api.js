@@ -19,7 +19,7 @@ router.post(
           .sort({ timeSpotted: -1 })
           .limit(1)
           .then(vehicle => {
-            if (vehicle) {
+            if (vehicle[0]) {
               var diffTime = vehicle[0].timeSpotted - now;
               var diffMins = Math.abs(
                 Math.round(((diffTime % 86400000) % 3600000) / 60000)
