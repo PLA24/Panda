@@ -18,8 +18,8 @@ router.post(
         return Vehicle.findOne({ numberplate: value }).then(vehicle => {
           if (vehicle) {
             var diffTime = vehicle.timeSpotted - now;
-            var diffMins = Math.round(
-              ((diffTime % 86400000) % 3600000) / 60000
+            var diffMins = Math.abs(
+              Math.round(((diffTime % 86400000) % 3600000) / 60000)
             ); // minutes
             if (diffMins < 5) {
               throw new Error(
