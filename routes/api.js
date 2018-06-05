@@ -15,7 +15,7 @@ router.post(
       // Moet niet de afgelopen 5 minuten gespot zijn
       .custom(value => {
         const now = new Date();
-        return Vehicle.findOne({ numberplate: value })
+        return Vehicle.find({ numberplate: value })
           .sort({ timeSpotted: -1 })
           .limit(1)
           .then(vehicle => {
