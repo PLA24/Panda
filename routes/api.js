@@ -15,18 +15,20 @@ router.post(
       // Moet niet de afgelopen 5 minuten gespot zijn
       .custom(value => {
         const now = new Date();
+
+        // Haalt de laatste tijdstip op dat een voertuig al eens gespot is, en kijkt of dat minder dan 5 minuten geleden is
         return Vehicle.find({ numberplate: value })
           .sort({ timeSpotted: -1 })
           .limit(1)
           .then(vehicle => {
             if (vehicle[0]) {
+              // Een berekening om het verschil van de 2 datumobjecten te krijgen, in afgeronde minuten
               var diffTime = vehicle[0].timeSpotted - now;
               var diffMins = Math.abs(
                 Math.round(((diffTime % 86400000) % 3600000) / 60000)
-              ); // minutes
-              console.log(diffMins);
+              );
+
               if (diffMins < 5) {
-                console.log("ERRORRRRRRRRRRRRRRRRRR");
                 throw new Error(
                   "Vehicle already spotted within time-limit: " +
                     diffMins +
@@ -35,22 +37,10 @@ router.post(
               }
             }
           });
-
-        // return Vehicle.findOne({ numberplate: value }, function(err, vehicle) {
-        //   console.log(vehicle);
-        //   if (vehicle) {
-        //     var difTime = vehicle.timeSpotted - now;
-        //     var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
-        //     if (diffMins < 5) {
-        //       throw new Error("Vehicle already spotted within time-limit");
-        //     }
-        //   } else {
-        //     resolve();
-        //   }
-        // });
       })
   ],
   function(req, res, next) {
+    // Als er errors zijn in de validatie, stuurt hij die terug
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.mapped() });
@@ -87,11 +77,13 @@ router.post(
           }
         });
 
-        // Als de body van de API-data wel leeg is, geef een erro
+        // Als de body van de API-data wel leeg is, geef een error
       } else {
         console.log("No data on plate!");
+        return res.status(422).json("No data on plate!");
       }
     });
+    // 200 code als alles goed is, zodat hij niet blijft hangen in de request
     return res.status(200).json("Sucesfully uploaded data");
   }
 );
