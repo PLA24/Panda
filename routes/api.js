@@ -22,7 +22,11 @@ router.post(
               ((diffTime % 86400000) % 3600000) / 60000
             ); // minutes
             if (diffMins < 5) {
-              throw new Error("Vehicle already spotted within time-limit");
+              throw new Error(
+                "Vehicle already spotted within time-limit: " +
+                  diffMins +
+                  " minutes since last spot"
+              );
             }
           }
         });
