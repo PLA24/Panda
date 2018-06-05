@@ -18,7 +18,9 @@ router.post(
         return Vehicle.findOne({ numberplate: value }).then(vehicle => {
           if (vehicle) {
             var difTime = vehicle.timeSpotted - now;
-            var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+            var diffMins = Math.round(
+              ((diffTime % 86400000) % 3600000) / 60000
+            ); // minutes
             if (diffMins < 5) {
               throw new Error("Vehicle already spotted within time-limit");
             }
