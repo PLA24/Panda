@@ -31,7 +31,7 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.log(errors.mapped);
-      next();
+      return;
     }
 
     // Plate als tekst uit de results halen van ALPR
