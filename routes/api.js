@@ -30,9 +30,8 @@ router.post(
   function(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(errors.mapped);
-      return;
-    }
+        return res.status(422).json({ errors: errors.mapped() });
+      }
 
     // Plate als tekst uit de results halen van ALPR
     let plate = req.body.results[0].plate;
