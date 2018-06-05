@@ -69,6 +69,7 @@ router.post(
         vehicle.tradename = body[0].handelsbenaming;
         vehicle.maincolor = body[0].eerste_kleur;
         vehicle.economylabel = body[0].zuinigheidslabel;
+        vehicle.timeSpotted = Date.now();
 
         // Roept de functie createVehicle aan om het vehicle object op te slaan in de database
         Vehicle.createVehicle(vehicle, err => {

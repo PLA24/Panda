@@ -35,7 +35,6 @@ const VehicleSchema = new mongoose.Schema({
   },
   timeSpotted: {
     type: Date,
-    default: Date.now(),
     required: true
   },
   siteSpotted: {
