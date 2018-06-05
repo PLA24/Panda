@@ -15,18 +15,28 @@ router.post(
       // Moet niet de afgelopen 5 minuten gespot zijn
       .custom(value => {
         const now = new Date();
-        return Vehicle.findOne({ numberplate: value }, function(err, vehicle) {
-          console.log(vehicle);
+        return Vehicle.findOne({ numberplate: value }).then(err, vehicle => {
           if (vehicle) {
             var difTime = vehicle.timeSpotted - now;
             var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
             if (diffMins < 5) {
               throw new Error("Vehicle already spotted within time-limit");
             }
-          } else {
-            resolve();
           }
         });
+
+        // return Vehicle.findOne({ numberplate: value }, function(err, vehicle) {
+        //   console.log(vehicle);
+        //   if (vehicle) {
+        //     var difTime = vehicle.timeSpotted - now;
+        //     var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+        //     if (diffMins < 5) {
+        //       throw new Error("Vehicle already spotted within time-limit");
+        //     }
+        //   } else {
+        //     resolve();
+        //   }
+        // });
       })
   ],
   function(req, res, next) {
