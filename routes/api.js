@@ -15,7 +15,8 @@ router.post(
       // Moet niet de afgelopen 5 minuten gespot zijn
       .custom(value => {
         const now = new Date();
-        return Vehicle.findOne({ numberplate: req.body.results[0].plate }, function(
+        const plate = results[0].plate
+        return Vehicle.findOne({ numberplate: plate }, function(
           err,
           vehicle
         ) {
