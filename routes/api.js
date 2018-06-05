@@ -15,25 +15,25 @@ router.post(
       // Moet niet de afgelopen 5 minuten gespot zijn
       .custom(value => {
         const now = new Date();
-        return Vehicle.findOne({ numberplate: value }, function(
-          err,
-          vehicle
-        ) {
-            if(vehicle) {
-                var difTime = vehicle.timeSpotted - now;
-                var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
-                if (diffMins < 5) {
-                  throw new Error("Vehicle already spotted within time-limit");
-                }
+        return Vehicle.findOne({ numberplate: value }, function(err, vehicle) {
+          console.log(vehicle);
+          if (vehicle) {
+            var difTime = vehicle.timeSpotted - now;
+            var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+            if (diffMins < 5) {
+              throw new Error("Vehicle already spotted within time-limit");
             }
+          } else {
+            resolve();
+          }
         });
       })
   ],
   function(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.mapped()});
-      }
+      return res.status(422).json({ errors: errors.mapped() });
+    }
 
     // Plate als tekst uit de results halen van ALPR
     let plate = req.body.results[0].plate;
