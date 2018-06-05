@@ -22,7 +22,7 @@ router.post(
               Math.round(((diffTime % 86400000) % 3600000) / 60000)
             ); // minutes
             console.log(diffMins);
-            if (diffMins < 5) {
+            if (diffMins > 5) {
               throw new Error(
                 "Vehicle already spotted within time-limit: " +
                   diffMins +
