@@ -81,7 +81,6 @@ router.post(
         // Als de body van de API-data wel leeg is, geef een error
       } else {
         console.log("No data on plate!");
-        return this.res.status(422).json("No data on plate!");
       }
     });
     // 200 code als alles goed is, zodat hij niet blijft hangen in de request
