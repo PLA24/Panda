@@ -19,11 +19,13 @@ router.post(
           err,
           vehicle
         ) {
-          var difTime = vehicle.timeSpotted - now;
-          var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
-          if (diffMins < 5) {
-            throw new Error("Vehicle already spotted within time-limit");
-          }
+            if(vehicle) {
+                var difTime = vehicle.timeSpotted - now;
+                var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+                if (diffMins < 5) {
+                  throw new Error("Vehicle already spotted within time-limit");
+                }
+            }
         });
       })
   ],
